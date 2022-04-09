@@ -40,7 +40,8 @@ void main() {
         .toList();
     final embedded = [EmbeddedProcessor(classElement.fields[2], {}).process()];
     const query = 'SELECT * from otherentity';
-    const constructor = "Person(row['id'] as int, row['name'] as String, Address(row['address_city'] as String, row['address_street'] as String))";
+    const constructor =
+        "Person(row['id'] as int, row['name'] as String, Address(row['address_city'] as String, row['address_street'] as String))";
     final expected = View(
       classElement,
       name,

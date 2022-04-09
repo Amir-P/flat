@@ -14,21 +14,17 @@ class Embedded extends FieldBase {
   ClassElement get classElement => fieldElement.type.element as ClassElement;
 
   /// Returns all fields including embedded objects fields
-  List<Field> getAllFields() => [
-      ...fields,
-      ...embedded
-          .map((e) => e.getAllFields())
-          .flattened
-    ];
+  List<Field> getAllFields() =>
+      [...fields, ...embedded.map((e) => e.getAllFields()).flattened];
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Embedded &&
-              runtimeType == other.runtimeType &&
-              fieldElement == other.fieldElement &&
-              const ListEquality<Field>().equals(fields, other.fields) &&
-              const ListEquality<Embedded>().equals(embedded, other.embedded);
+      other is Embedded &&
+          runtimeType == other.runtimeType &&
+          fieldElement == other.fieldElement &&
+          const ListEquality<Field>().equals(fields, other.fields) &&
+          const ListEquality<Embedded>().equals(embedded, other.embedded);
 
   @override
   int get hashCode =>

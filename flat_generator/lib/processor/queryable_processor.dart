@@ -115,7 +115,8 @@ abstract class QueryableProcessor<T extends Queryable> extends Processor<T> {
         parameterValue = _getConstructor(
             embedded.classElement, [...embedded.fields, ...embedded.embedded]);
         if (embedded.isNullable) {
-          parameterValue = embedded.getAllFields()
+          parameterValue = embedded
+                  .getAllFields()
                   .map((e) => "row['${e.columnName}'] != null")
                   .join(' || ') +
               ' ? ' +
