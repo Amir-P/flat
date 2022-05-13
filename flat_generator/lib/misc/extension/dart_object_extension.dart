@@ -7,7 +7,9 @@ extension DartObjectExtension on DartObject {
   /// get the String representation of the enum value,
   /// or `null` if the enum was not valid
   String? toEnumValueString(List enumValues) {
-    final enumIndex = (type as InterfaceType).element.fields
+    final enumIndex = (type as InterfaceType)
+        .element
+        .fields
         .where((element) => element.isEnumConstant)
         .toList()
         .indexWhere((element) => element.computeConstantValue() == this);
