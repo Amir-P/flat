@@ -1,7 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:flat_annotation/flat_annotation.dart' as annotations
-    show Update;
+import 'package:flat_annotation/flat_annotation.dart' as annotations;
 import 'package:flat_generator/misc/change_method_processor_helper.dart';
 import 'package:flat_generator/misc/constants.dart';
 import 'package:flat_generator/misc/extension/dart_object_extension.dart';
@@ -63,7 +62,7 @@ class UpdateMethodProcessor implements Processor<UpdateMethod> {
     final onConflictStrategy = _methodElement
         .getAnnotation(annotations.Update)
         ?.getField(AnnotationField.onConflict)
-        ?.toEnumValueString();
+        ?.toEnumValueString(annotations.OnConflictStrategy.values);
 
     if (onConflictStrategy == null) {
       throw _errors.wrongOnConflictValue;

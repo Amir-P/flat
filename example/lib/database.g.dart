@@ -91,23 +91,31 @@ class _$FlutterDatabase extends FlutterDatabase {
   }
 
   @override
-  Future<T> transaction<T>(Future<T> Function(dynamic) action) {
+  Future<T> transaction<T>(Future<T> Function(dynamic) action) async {
     if (database is sqflite.Transaction) {
       return action(this);
     } else {
-      return (database as sqflite.Database).transaction<T>((transaction) =>
-          action(_$FlutterDatabase(changeListener)..database = transaction));
+      final _changeListener = StreamController<String>.broadcast();
+      final Set<String> _events = {};
+      _changeListener.stream.listen(_events.add);
+      final T result = await (database as sqflite.Database).transaction<T>(
+          (transaction) => action(
+              _$FlutterDatabase(_changeListener)..database = transaction));
+      await _changeListener.close();
+      _events.forEach(changeListener.add);
+      return result;
     }
   }
 
   @override
   TaskDao get taskDao {
-    return _taskDaoInstance ??= _$TaskDao(database, changeListener);
+    return _taskDaoInstance ??=
+        _$TaskDao(database, changeListener, transaction);
   }
 }
 
 class _$TaskDao extends TaskDao {
-  _$TaskDao(this.database, this.changeListener)
+  _$TaskDao(this.database, this.changeListener, this.transaction)
       : _queryAdapter = QueryAdapter(database, changeListener),
         _taskInsertionAdapter = InsertionAdapter(
             database,
@@ -133,6 +141,8 @@ class _$TaskDao extends TaskDao {
   final sqflite.DatabaseExecutor database;
 
   final StreamController<String> changeListener;
+
+  final Future<T> Function<T>(Future<T> Function(dynamic)) transaction;
 
   final QueryAdapter _queryAdapter;
 

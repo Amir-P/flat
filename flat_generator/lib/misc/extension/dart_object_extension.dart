@@ -6,24 +6,24 @@ import 'package:flat_annotation/flat_annotation.dart';
 extension DartObjectExtension on DartObject {
   /// get the String representation of the enum value,
   /// or `null` if the enum was not valid
-  String? toEnumValueString() {
-    final interfaceType = type as InterfaceType;
-    final enumName = interfaceType.getDisplayString(withNullability: false);
-    final enumValue = interfaceType.element.fields
+  String? toEnumValueString(List enumValues) {
+    final enumIndex = (type as InterfaceType)
+        .element
+        .fields
         .where((element) => element.isEnumConstant)
-        .map((fieldElement) => fieldElement.name)
-        .singleWhereOrNull((valueName) => getField(valueName) != null);
-    if (enumValue == null) {
+        .toList()
+        .indexWhere((element) => element.computeConstantValue() == this);
+    if (enumIndex == -1) {
       return null;
     } else {
-      return '$enumName.$enumValue';
+      return enumValues[enumIndex].toString();
     }
   }
 
   /// get the ForeignKeyAction this enum represents,
   /// or the result of `null` if the enum did not contain a valid value
   ForeignKeyAction? toForeignKeyAction() {
-    final enumValueString = toEnumValueString();
+    final enumValueString = toEnumValueString(ForeignKeyAction.values);
     if (enumValueString == null) {
       return null;
     } else {
