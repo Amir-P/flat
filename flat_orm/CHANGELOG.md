@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.1+1
+
+### 🐛 Bug Fixes
+
+* Fixed generator not recognizing enum values
+
 ## 1.5.0+1
 
 ### 🐛 Bug Fixes
