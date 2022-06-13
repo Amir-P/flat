@@ -30,7 +30,9 @@ class FieldProcessor extends Processor<Field> {
     final columnName = _prefix + _getColumnName(name);
     final isNullable = _fieldElement.type.isNullable;
     final typeConverter = {
-      ..._fieldElement.getTypeConverters(TypeConverterScope.field),
+      _fieldElement
+          .getTypeConverters(TypeConverterScope.field)
+          .getClosestOrNull(_fieldElement.type),
       _typeConverter
     }.whereNotNull().closestOrNull;
 

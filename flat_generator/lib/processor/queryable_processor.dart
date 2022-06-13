@@ -98,17 +98,22 @@ abstract class QueryableProcessor<T extends Queryable> extends Processor<T> {
             parameterElement,
           );
         } else {
-          final typeConverter = [
-            ...queryableTypeConverters,
-            field.typeConverter
-          ].whereNotNull().getClosest(parameterElement.type);
+          final typeConverter = field.typeConverter!;
           final castedDatabaseValue = databaseValue.cast(
             typeConverter.databaseType,
             parameterElement,
           );
 
-          parameterValue =
-              '_${typeConverter.name.decapitalize()}.decode($castedDatabaseValue)';
+          final shouldCheckForNullability =
+              !typeConverter.fieldType.isNullable &&
+                  parameterElement.type.isNullable;
+          if (shouldCheckForNullability) {
+            parameterValue =
+                '$databaseValue == null ? null : _${typeConverter.name.decapitalize()}.decode($castedDatabaseValue)';
+          } else {
+            parameterValue =
+                '_${typeConverter.name.decapitalize()}.decode($castedDatabaseValue)';
+          }
         }
       } else {
         final embedded = field as Embedded;
