@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:flat_generator/misc/extension/dart_type_extension.dart';
 import 'package:flat_generator/value_object/type_converter.dart';
 
 /// Represents an Entity field and thus a table column.
@@ -25,7 +26,20 @@ class Field extends FieldBase {
     if (autoGenerate) {
       columnSpecification.write(' PRIMARY KEY AUTOINCREMENT');
     }
-    if (!isNullable && !forceNullability) {
+
+    final bool _columnIsNullable;
+
+    if (typeConverter != null) {
+      if (typeConverter!.databaseType.isNullable) {
+        _columnIsNullable = true;
+      } else {
+        _columnIsNullable = isNullable && !typeConverter!.fieldType.isNullable;
+      }
+    } else {
+      _columnIsNullable = isNullable;
+    }
+
+    if (!_columnIsNullable && !forceNullability) {
       columnSpecification.write(' NOT NULL');
     }
 
