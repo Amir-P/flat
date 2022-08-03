@@ -1,6 +1,5 @@
 import 'package:analyzer/dart/element/type.dart';
 import 'package:collection/collection.dart';
-import 'package:flat_generator/misc/extension/dart_type_extension.dart';
 import 'package:flat_generator/misc/extension/iterable_extension.dart';
 import 'package:flat_generator/value_object/type_converter.dart';
 import 'package:source_gen/source_gen.dart';
@@ -14,12 +13,11 @@ extension TypeConvertersExtension on Iterable<TypeConverter> {
 
   /// Returns the [TypeConverter] in the closest [TypeConverterScope] for
   /// [dartType] or null
-  TypeConverter? getClosestOrNull(DartType dartType) => toList()
-      .reversed
-      .sortedByDescending((e) => e.scope.index)
-      .firstWhereOrNull((e) =>
-          TypeChecker.fromStatic(e.fieldType).isExactlyType(dartType) &&
-          (dartType.isNullable || !e.fieldType.isNullable));
+  TypeConverter? getClosestOrNull(DartType dartType) {
+    return sortedByDescending((typeConverter) => typeConverter.scope.index)
+        .firstWhereOrNull(
+            (typeConverter) => typeConverter.fieldType == dartType);
+  }
 
   /// Returns the [TypeConverter] in the closest [TypeConverterScope] for
   /// [dartType]
