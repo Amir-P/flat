@@ -215,7 +215,7 @@ void main() {
           final dog = Dog(null, 'Peter', 'Pete', 3);
           final List<String> events = [];
           // ignore: invalid_use_of_protected_member
-          database.changeListener.stream.listen(events.add);
+          database.changeListener.stream.listen(events.addAll);
           await database.transaction<void>((dynamic db) async {
             if (db is TestDatabase) {
               await db.personDao.insertPerson(persons[0]);

@@ -57,8 +57,8 @@ class _$FlutterDatabaseBuilder {
 }
 
 class _$FlutterDatabase extends FlutterDatabase {
-  _$FlutterDatabase([StreamController<String>? listener]) {
-    changeListener = listener ?? StreamController<String>.broadcast();
+  _$FlutterDatabase([StreamController<Set<String>>? listener]) {
+    changeListener = listener ?? StreamController<Set<String>>.broadcast();
   }
 
   TaskDao? _taskDaoInstance;
@@ -95,14 +95,14 @@ class _$FlutterDatabase extends FlutterDatabase {
     if (database is sqflite.Transaction) {
       return action(this);
     } else {
-      final _changeListener = StreamController<String>.broadcast();
+      final _changeListener = StreamController<Set<String>>.broadcast();
       final Set<String> _events = {};
-      _changeListener.stream.listen(_events.add);
+      _changeListener.stream.listen(_events.addAll);
       final T result = await (database as sqflite.Database).transaction<T>(
           (transaction) => action(
               _$FlutterDatabase(_changeListener)..database = transaction));
       await _changeListener.close();
-      _events.forEach(changeListener.add);
+      changeListener.add(_events);
       return result;
     }
   }
@@ -140,7 +140,7 @@ class _$TaskDao extends TaskDao {
 
   final sqflite.DatabaseExecutor database;
 
-  final StreamController<String> changeListener;
+  final StreamController<Set<String>> changeListener;
 
   final Future<T> Function<T>(Future<T> Function(dynamic)) transaction;
 

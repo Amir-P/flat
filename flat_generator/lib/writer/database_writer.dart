@@ -33,11 +33,11 @@ class DatabaseWriter implements Writer {
     return Constructor((builder) {
       final parameter = Parameter((builder) => builder
         ..name = 'listener'
-        ..type = refer('StreamController<String>?'));
+        ..type = refer('StreamController<Set<String>>?'));
 
       builder
         ..body = const Code(
-          'changeListener = listener ?? StreamController<String>.broadcast();',
+          'changeListener = listener ?? StreamController<Set<String>>.broadcast();',
         )
         ..optionalParameters.add(parameter);
     });
@@ -82,14 +82,14 @@ class DatabaseWriter implements Writer {
             if (database is sqflite.Transaction) {
               return action(this);
             } else {
-              final _changeListener = StreamController<String>.broadcast();
+              final _changeListener = StreamController<Set<String>>.broadcast();
               final Set<String> _events = {};
-              _changeListener.stream.listen(_events.add);
+              _changeListener.stream.listen(_events.addAll);
               final T result = await (database as sqflite.Database).transaction<T>(
                   (transaction) =>
                       action(_\$${database.name}(_changeListener)..database = transaction));
               await _changeListener.close();
-              _events.forEach(changeListener.add);
+              changeListener.add(_events);
               return result;
             }
           '''));
