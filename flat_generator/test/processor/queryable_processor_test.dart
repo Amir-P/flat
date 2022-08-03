@@ -154,6 +154,12 @@ void main() {
 
     test('process queryable and prefer local type converter over external',
         () async {
+      final externalTypeConverter = TypeConverter(
+        'ExternalConverter',
+        await dateTimeDartType,
+        await intDartType,
+        TypeConverterScope.database,
+      );
       final classElement = await createClassElement('''
       @TypeConverters([DateTimeConverter])
       class Order {
@@ -199,7 +205,8 @@ void main() {
       }
     ''');
 
-      final actual = TestProcessor(classElement).process();
+      final actual =
+          TestProcessor(classElement, {externalTypeConverter}).process();
 
       final typeConverter = TypeConverter(
         'DateTimeConverter',
@@ -230,51 +237,6 @@ void main() {
         constructor,
       );
       expect(actual, equals(expected));
-    });
-
-    test('prefer the closest suitable type converter', () async {
-      final classElement = await createClassElement('''
-      @TypeConverters([DateTimeConverter, NullableDateTimeConverter])
-      class Product {
-        final DateTime date1;
-        
-        @TypeConverters([NullableDateTimeConverter, DateTimeConverter])
-        final DateTime? date2;
-        
-        @TypeConverters([DateTimeConverter, NullableDateTimeConverter])
-        final DateTime? date3;
-        
-        Product(this.date1, this.date2, this.date3);
-      }
-      
-      class DateTimeConverter extends TypeConverter<DateTime, int> {
-        @override
-        DateTime decode(int databaseValue) {
-          return DateTime.now();
-        }
-
-        @override
-        int encode(DateTime value) {
-          return 0;
-        }
-      }
-      
-      class NullableDateTimeConverter extends TypeConverter<DateTime?, int?> {
-        @override
-        DateTime? decode(int databaseValue) {
-          return DateTime.now();
-        }
-
-        @override
-        int? encode(DateTime? value) {
-          return 0;
-        }
-      }
-    ''');
-      final actual = TestProcessor(classElement).process();
-      const constructor =
-          "Product(_dateTimeConverter.decode(row['date1'] as int), row['date2'] == null ? null : _dateTimeConverter.decode(row['date2'] as int), _nullableDateTimeConverter.decode(row['date3'] as int?))";
-      expect(actual.constructor, constructor);
     });
   });
 
