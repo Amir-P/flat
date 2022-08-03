@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.2
+
+* Tracking changes as a set of table names
+
 ## 1.5.1+1
 
 ### 🐛 Bug Fixes
