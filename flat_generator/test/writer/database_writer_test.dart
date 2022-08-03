@@ -31,8 +31,8 @@ void main() {
 
     expect(actual, equalsDart(r'''
       class _$TestDatabase extends TestDatabase {
-        _$TestDatabase([StreamController<String>? listener]) {
-         changeListener = listener ?? StreamController<String>.broadcast();
+        _$TestDatabase([StreamController<Set<String>>? listener]) {
+         changeListener = listener ?? StreamController<Set<String>>.broadcast();
         }
       
         Future<sqflite.Database> open(String path, List<Migration> migrations,
@@ -67,14 +67,14 @@ void main() {
           if (database is sqflite.Transaction) {
             return action(this);
           } else {
-            final _changeListener = StreamController<String>.broadcast();
+            final _changeListener = StreamController<Set<String>>.broadcast();
             final Set<String> _events = {};
-            _changeListener.stream.listen(_events.add);
+            _changeListener.stream.listen(_events.addAll);
             final T result = await (database as sqflite.Database).transaction<T>(
                 (transaction) =>
                     action(_$TestDatabase(_changeListener)..database = transaction));
             await _changeListener.close();
-            _events.forEach(changeListener.add);
+            changeListener.add(_events);
             return result;
           }
         }
@@ -110,8 +110,8 @@ void main() {
 
     expect(actual, equalsDart(r'''
       class _$TestDatabase extends TestDatabase {
-        _$TestDatabase([StreamController<String>? listener]) {
-          changeListener = listener ?? StreamController<String>.broadcast();
+        _$TestDatabase([StreamController<Set<String>>? listener]) {
+          changeListener = listener ?? StreamController<Set<String>>.broadcast();
         }
         
         TestDao? _testDaoInstance;
@@ -148,14 +148,14 @@ void main() {
           if (database is sqflite.Transaction) {
             return action(this);
           } else {
-            final _changeListener = StreamController<String>.broadcast();
+            final _changeListener = StreamController<Set<String>>.broadcast();
             final Set<String> _events = {};
-            _changeListener.stream.listen(_events.add);
+            _changeListener.stream.listen(_events.addAll);
             final T result = await (database as sqflite.Database).transaction<T>(
                 (transaction) =>
                     action(_$TestDatabase(_changeListener)..database = transaction));
             await _changeListener.close();
-            _events.forEach(changeListener.add);
+            changeListener.add(_events);
             return result;
           }
         }
@@ -216,8 +216,8 @@ void main() {
 
     expect(actual, equalsDart(r'''
       class _$TestDatabase extends TestDatabase {
-        _$TestDatabase([StreamController<String>? listener]) {
-          changeListener = listener ?? StreamController<String>.broadcast();
+        _$TestDatabase([StreamController<Set<String>>? listener]) {
+          changeListener = listener ?? StreamController<Set<String>>.broadcast();
         }
         
         Future<sqflite.Database> open(String path, List<Migration> migrations,
@@ -252,14 +252,14 @@ void main() {
           if (database is sqflite.Transaction) {
             return action(this);
           } else {
-            final _changeListener = StreamController<String>.broadcast();
+            final _changeListener = StreamController<Set<String>>.broadcast();
             final Set<String> _events = {};
-            _changeListener.stream.listen(_events.add);
+            _changeListener.stream.listen(_events.addAll);
             final T result = await (database as sqflite.Database).transaction<T>(
                 (transaction) =>
                     action(_$TestDatabase(_changeListener)..database = transaction));
             await _changeListener.close();
-            _events.forEach(changeListener.add);
+            changeListener.add(_events);
             return result;
           }
         }
@@ -296,8 +296,8 @@ void main() {
 
     expect(actual, equalsDart(r"""
       class _$TestDatabase extends TestDatabase {
-        _$TestDatabase([StreamController<String>? listener]) {
-         changeListener = listener ?? StreamController<String>.broadcast();
+        _$TestDatabase([StreamController<Set<String>>? listener]) {
+         changeListener = listener ?? StreamController<Set<String>>.broadcast();
         }
       
         Future<sqflite.Database> open(String path, List<Migration> migrations,
@@ -335,14 +335,14 @@ void main() {
           if (database is sqflite.Transaction) {
             return action(this);
           } else {
-            final _changeListener = StreamController<String>.broadcast();
+            final _changeListener = StreamController<Set<String>>.broadcast();
             final Set<String> _events = {};
-            _changeListener.stream.listen(_events.add);
+            _changeListener.stream.listen(_events.addAll);
             final T result = await (database as sqflite.Database).transaction<T>(
                 (transaction) =>
                     action(_$TestDatabase(_changeListener)..database = transaction));
             await _changeListener.close();
-            _events.forEach(changeListener.add);
+            changeListener.add(_events);
             return result;
           }
         }

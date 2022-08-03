@@ -64,7 +64,7 @@ void main() {
         
           final sqflite.DatabaseExecutor database;
         
-          final StreamController<String> changeListener;
+          final StreamController<Set<String>> changeListener;
         
           final Future<T> Function<T>(Future<T> Function(dynamic)) transaction;
 
@@ -148,7 +148,7 @@ void main() {
         
           final sqflite.DatabaseExecutor database;
         
-          final StreamController<String> changeListener;
+          final StreamController<Set<String>> changeListener;
         
           final Future<T> Function<T>(Future<T> Function(dynamic)) transaction;
 
@@ -227,7 +227,7 @@ void main() {
         
           final sqflite.DatabaseExecutor database;
         
-          final StreamController<String> changeListener;
+          final StreamController<Set<String>> changeListener;
         
           final Future<T> Function<T>(Future<T> Function(dynamic)) transaction;
 
@@ -308,7 +308,7 @@ void main() {
       
         final sqflite.DatabaseExecutor database;
       
-        final StreamController<String> changeListener;
+        final StreamController<Set<String>> changeListener;
       
         final Future<T> Function<T>(Future<T> Function(dynamic)) transaction;
 
@@ -379,7 +379,7 @@ void main() {
         
           final sqflite.DatabaseExecutor database;
         
-          final StreamController<String> changeListener;
+          final StreamController<Set<String>> changeListener;
         
           final Future<T> Function<T>(Future<T> Function(dynamic)) transaction;
 
