@@ -79,7 +79,9 @@ class InsertionAdapter<T> {
       _valueMapper(item),
       conflictAlgorithm: onConflictStrategy.asSqfliteConflictAlgorithm(),
     );
-    if (result != 0) _changeListener?.add({_entityName});
+    // We will add the event no matter the result coming from insertion method
+    // check https://github.com/tekartik/sqflite/issues/871
+    _changeListener?.add({_entityName});
     return result;
   }
 }
