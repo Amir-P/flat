@@ -204,15 +204,17 @@ void main() {
       verify(mockStreamController.add({entityName}));
     });
 
-    test('insert item but transaction failed (returns 0)', () async {
+    test('insert item but transaction failed', () async {
+      final exception = Exception();
       final person = Person(1, 'Simon');
       when(mockDatabaseExecutor.insert(
         entityName,
         valueMapper(person),
         conflictAlgorithm: conflictAlgorithm,
-      )).thenAnswer((_) => Future(() => 0));
+      )).thenThrow(exception);
 
-      await underTest.insert(person, onConflictStrategy);
+      expect(() => underTest.insert(person, onConflictStrategy),
+          throwsA(exception));
 
       verifyZeroInteractions(mockStreamController);
     });
