@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.3
+
+* Fix adapter not adding event when result is 0 for single insertion
+
 ## 1.5.2
 
 * Tracking changes as a set of table names
