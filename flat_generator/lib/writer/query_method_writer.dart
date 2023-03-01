@@ -11,6 +11,7 @@ import 'package:flat_generator/value_object/query_method.dart';
 import 'package:flat_generator/value_object/queryable.dart';
 import 'package:flat_generator/value_object/view.dart';
 import 'package:flat_generator/writer/writer.dart';
+import 'package:strings/strings.dart';
 
 class QueryMethodWriter implements Writer {
   final QueryMethod _queryMethod;
@@ -147,15 +148,17 @@ class QueryMethodWriter implements Writer {
 
   String _generateQueryString() {
     final code = StringBuffer();
+    code.write("'");
     int start = 0;
     final originalQuery = _queryMethod.query.sql;
     for (final listParameter in _queryMethod.query.listParameters) {
       code.write(
-          originalQuery.substring(start, listParameter.position).toLiteral());
-      code.write(' + _sqliteVariablesFor${listParameter.name.capitalize()} + ');
+          originalQuery.substring(start, listParameter.position));
+      code.write('\$_sqliteVariablesFor${listParameter.name.capitalize()}');
       start = listParameter.position + varlistPlaceholder.length;
     }
-    code.write(originalQuery.substring(start).toLiteral());
+    code.write(escape(originalQuery.substring(start)));
+    code.write("'");
 
     return code.toString();
   }
