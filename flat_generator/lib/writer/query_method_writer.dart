@@ -152,8 +152,7 @@ class QueryMethodWriter implements Writer {
     int start = 0;
     final originalQuery = _queryMethod.query.sql;
     for (final listParameter in _queryMethod.query.listParameters) {
-      code.write(
-          originalQuery.substring(start, listParameter.position));
+      code.write(originalQuery.substring(start, listParameter.position));
       code.write('\$_sqliteVariablesFor${listParameter.name.capitalize()}');
       start = listParameter.position + varlistPlaceholder.length;
     }
