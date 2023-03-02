@@ -483,11 +483,12 @@ packages:
   test_cov:
     dependency: "direct dev"
     description:
-      name: test_cov
-      sha256: cb2506e782a7e2dde427c6d46dbac221efb9e37f9191bc57e473b89f7756d68f
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
+      path: "."
+      ref: HEAD
+      resolved-ref: e3bb980197a0b9388ab1fb8cd841b0e1d05c6356
+      url: "https://github.com/dkaera/test_cov"
+    source: git
+    version: "1.0.4"
   typed_data:
     dependency: transitive
     description:
@@ -545,4 +546,4 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <4.0.0"
+  dart: ">=2.19.0 <=3.3.8"
