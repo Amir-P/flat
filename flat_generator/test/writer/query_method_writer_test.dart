@@ -185,7 +185,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<List<Order>> findWithIds(List<int> ids, String name, List<DateTime> dateTimeList, DateTime foo) async {
+      Future<List<Order>> findWithIds(List<int> ids, String name, List<DateTime> dateTimeList, DateTime foo,) async {
         int offset = 3;
         final _sqliteVariablesForIds=Iterable<String>.generate(ids.length, (i)=>'?${i+offset}').join(',');
         offset += ids.length;
@@ -223,7 +223,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<Person?> findById(int id, String name) async {
+      Future<Person?> findById(int id, String name,) async {
         return _queryAdapter.query('SELECT * FROM Person WHERE id = ?1 AND name = ?2', mapper: (Map<String, Object?> row) => Person(row['id'] as int, row['name'] as String), arguments: [id, name]);
       }
     '''));
@@ -239,7 +239,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<Person?> findById(int id, String name, String bar) async {
+      Future<Person?> findById(int id, String name, String bar,) async {
         return _queryAdapter.query('SELECT * FROM Person WHERE foo = ?3 AND id = ?1 AND name = ?2 AND name = ?3', mapper: (Map<String, Object?> row) => Person(row['id'] as int, row['name'] as String), arguments: [id, name, bar]);
       }
     '''));
@@ -359,7 +359,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<List<Person>> findWithIds(List<int> ids, List<int> idx) async {
+      Future<List<Person>> findWithIds(List<int> ids, List<int> idx,) async {
         int offset = 1;
         final _sqliteVariablesForIds=Iterable<String>.generate(ids.length, (i)=>'?${i+offset}').join(',');
         offset += ids.length;
@@ -381,7 +381,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<List<Person>> findWithIds(List<int> ids, List<int> idx) async {
+      Future<List<Person>> findWithIds(List<int> ids, List<int> idx,) async {
         int offset = 1;
         final _sqliteVariablesForIds=Iterable<String>.generate(ids.length, (i)=>'?${i+offset}').join(',');
         offset += ids.length;
@@ -405,7 +405,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<List<Person>> findWithIds(List<int> idx, String name, List<int> ids, int foo) async {
+      Future<List<Person>> findWithIds(List<int> idx, String name, List<int> ids, int foo,) async {
         int offset = 3;
         final _sqliteVariablesForIdx=Iterable<String>.generate(idx.length, (i)=>'?${i+offset}').join(',');
         offset += idx.length;

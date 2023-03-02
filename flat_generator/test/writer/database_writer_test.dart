@@ -36,7 +36,7 @@ void main() {
         }
       
         Future<sqflite.Database> open(String path, List<Migration> migrations,
-            [Callback? callback]) async {
+            [Callback? callback,]) async {
           final databaseOptions = sqflite.OpenDatabaseOptions(
             version: 1,
             onConfigure: (database) async {
@@ -117,7 +117,7 @@ void main() {
         TestDao? _testDaoInstance;
         
         Future<sqflite.Database> open(String path, List<Migration> migrations,
-            [Callback? callback]) async {
+            [Callback? callback,]) async {
           final databaseOptions = sqflite.OpenDatabaseOptions(
             version: 1,
             onConfigure: (database) async {
@@ -221,7 +221,7 @@ void main() {
         }
         
         Future<sqflite.Database> open(String path, List<Migration> migrations,
-            [Callback? callback]) async {
+            [Callback? callback,]) async {
           final databaseOptions = sqflite.OpenDatabaseOptions(
             version: 1,
             onConfigure: (database) async {
@@ -301,7 +301,7 @@ void main() {
         }
       
         Future<sqflite.Database> open(String path, List<Migration> migrations,
-            [Callback? callback]) async {
+            [Callback? callback,]) async {
           final databaseOptions = sqflite.OpenDatabaseOptions(
             version: 1,
             onConfigure: (database) async {

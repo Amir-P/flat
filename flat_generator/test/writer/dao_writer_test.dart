@@ -42,7 +42,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
         class _$PersonDao extends PersonDao {
-          _$PersonDao(this.database, this.changeListener, this.transaction)
+          _$PersonDao(this.database, this.changeListener, this.transaction,)
               : _queryAdapter = QueryAdapter(database),
                 _personInsertionAdapter = InsertionAdapter(
                     database,
@@ -123,7 +123,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
         class _$PersonDao extends PersonDao {
-          _$PersonDao(this.database, this.changeListener, this.transaction)
+          _$PersonDao(this.database, this.changeListener, this.transaction,)
               : _queryAdapter = QueryAdapter(database, changeListener),
                 _personInsertionAdapter = InsertionAdapter(
                     database,
@@ -203,7 +203,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
         class _$PersonDao extends PersonDao {
-          _$PersonDao(this.database, this.changeListener, this.transaction)
+          _$PersonDao(this.database, this.changeListener, this.transaction,)
               : _personInsertionAdapter = InsertionAdapter(
                     database,
                     'Person',
@@ -287,7 +287,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
       class _$PersonDao extends PersonDao {
-        _$PersonDao(this.database, this.changeListener, this.transaction)
+        _$PersonDao(this.database, this.changeListener, this.transaction,)
             : _personInsertionAdapter = InsertionAdapter(
                   database,
                   'Person',
@@ -355,7 +355,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
         class _$PersonDao extends PersonDao {
-          _$PersonDao(this.database, this.changeListener, this.transaction)
+          _$PersonDao(this.database, this.changeListener, this.transaction,)
               : _personInsertionAdapter = InsertionAdapter(
                     database,
                     'Person',
