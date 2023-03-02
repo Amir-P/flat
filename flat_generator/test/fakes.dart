@@ -127,9 +127,6 @@ class FakeClassElement implements ClassElement {
   bool get hasSealed => throw UnimplementedError();
 
   @override
-  bool get hasStaticMember => throw UnimplementedError();
-
-  @override
   bool get hasVisibleForTemplate => throw UnimplementedError();
 
   @override
@@ -158,12 +155,6 @@ class FakeClassElement implements ClassElement {
 
   @override
   bool get isDartCoreObject => throw UnimplementedError();
-
-  @override
-  bool get isEnum => throw UnimplementedError();
-
-  @override
-  bool get isMixin => throw UnimplementedError();
 
   @override
   bool get isMixinApplication => throw UnimplementedError();
@@ -302,6 +293,65 @@ class FakeClassElement implements ClassElement {
 
   @override
   Element get nonSynthetic => throw UnimplementedError();
+
+  @override
+  ClassAugmentationElement? get augmentation => throw UnimplementedError();
+
+  @override
+  AugmentedClassElement get augmented => throw UnimplementedError();
+
+  @override
+  List<Element> get children => throw UnimplementedError();
+
+  @override
+  CompilationUnitElement get enclosingElement3 => throw UnimplementedError();
+
+  @override
+  bool get hasMustBeOverridden => throw UnimplementedError();
+
+  @override
+  bool get hasReopen => throw UnimplementedError();
+
+  @override
+  bool isAccessibleIn2(LibraryElement library) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get isBase => throw UnimplementedError();
+
+  @override
+  bool get isDartCoreEnum => throw UnimplementedError();
+
+  @override
+  bool get isExhaustive => throw UnimplementedError();
+
+  @override
+  bool isExtendableIn(LibraryElement library) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get isFinal => throw UnimplementedError();
+
+  @override
+  bool isImplementableIn(LibraryElement library) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get isInterface => throw UnimplementedError();
+
+  @override
+  bool isMixableIn(LibraryElement library) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get isMixinClass => throw UnimplementedError();
+
+  @override
+  bool get isSealed => throw UnimplementedError();
 }
 
 class FakeFieldElement implements FieldElement {
@@ -505,6 +555,29 @@ class FakeFieldElement implements FieldElement {
 
   @override
   Element get nonSynthetic => throw UnimplementedError();
+
+  @override
+  FieldAugmentationElement? get augmentation => throw UnimplementedError();
+
+  @override
+  List<Element> get children => throw UnimplementedError();
+
+  @override
+  Element get enclosingElement3 => throw UnimplementedError();
+
+  @override
+  bool get hasMustBeOverridden => throw UnimplementedError();
+
+  @override
+  bool get hasReopen => throw UnimplementedError();
+
+  @override
+  bool isAccessibleIn2(LibraryElement library) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get isPromotable => throw UnimplementedError();
 }
 
 class FakeDartObject implements DartObject {
@@ -574,4 +647,7 @@ class FakeDartObject implements DartObject {
 
   @override
   ParameterizedType? get type => throw UnimplementedError();
+
+  @override
+  VariableElement? get variable => throw UnimplementedError();
 }

@@ -158,7 +158,7 @@ void main() {
       Future<List<Order>> findByDates(List<DateTime> dates) async {
         const offset = 1;
         final _sqliteVariablesForDates=Iterable<String>.generate(dates.length, (i)=>'?${i+offset}').join(',');
-        return _queryAdapter.queryList('SELECT * FROM Order WHERE date IN (' + _sqliteVariablesForDates + ')', 
+        return _queryAdapter.queryList('SELECT * FROM Order WHERE date IN ($_sqliteVariablesForDates)', 
           mapper: (Map<String, Object?> row) => Order(row['id'] as int, _dateTimeConverter.decode(row['dateTime'] as int)),
           arguments: [...dates.map((element) => _dateTimeConverter.encode(element))]);
       }
@@ -185,12 +185,12 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<List<Order>> findWithIds(List<int> ids, String name, List<DateTime> dateTimeList, DateTime foo) async {
+      Future<List<Order>> findWithIds(List<int> ids, String name, List<DateTime> dateTimeList, DateTime foo,) async {
         int offset = 3;
         final _sqliteVariablesForIds=Iterable<String>.generate(ids.length, (i)=>'?${i+offset}').join(',');
         offset += ids.length;
         final _sqliteVariablesForDateTimeList=Iterable<String>.generate(dateTimeList.length, (i)=>'?${i+offset}').join(',');
-        return _queryAdapter.queryList('SELECT * FROM Order WHERE id IN (' + _sqliteVariablesForIds + ') AND id IN (' + _sqliteVariablesForDateTimeList + ') OR foo in (' + _sqliteVariablesForIds + ') AND bar = ?2 OR name = ?1', 
+        return _queryAdapter.queryList('SELECT * FROM Order WHERE id IN ($_sqliteVariablesForIds) AND id IN ($_sqliteVariablesForDateTimeList) OR foo in ($_sqliteVariablesForIds) AND bar = ?2 OR name = ?1', 
           mapper: (Map<String, Object?> row) => Order(row['id'] as int, _dateTimeConverter.decode(row['dateTime'] as int)),
           arguments: [name, _dateTimeConverter.encode(foo), ...ids, ...dateTimeList.map((element) => _dateTimeConverter.encode(element))]);
       }
@@ -223,7 +223,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<Person?> findById(int id, String name) async {
+      Future<Person?> findById(int id, String name,) async {
         return _queryAdapter.query('SELECT * FROM Person WHERE id = ?1 AND name = ?2', mapper: (Map<String, Object?> row) => Person(row['id'] as int, row['name'] as String), arguments: [id, name]);
       }
     '''));
@@ -239,7 +239,7 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<Person?> findById(int id, String name, String bar) async {
+      Future<Person?> findById(int id, String name, String bar,) async {
         return _queryAdapter.query('SELECT * FROM Person WHERE foo = ?3 AND id = ?1 AND name = ?2 AND name = ?3', mapper: (Map<String, Object?> row) => Person(row['id'] as int, row['name'] as String), arguments: [id, name, bar]);
       }
     '''));
@@ -322,7 +322,7 @@ void main() {
       Future<List<Person>> findWithIds(List<int> ids) async {
         const offset = 1;
         final _sqliteVariablesForIds=Iterable<String>.generate(ids.length, (i)=>'?${i+offset}').join(',');
-        return _queryAdapter.queryList('SELECT * FROM Person WHERE id IN (' + _sqliteVariablesForIds + ')', 
+        return _queryAdapter.queryList('SELECT * FROM Person WHERE id IN ($_sqliteVariablesForIds)', 
           mapper: (Map<String, Object?> row) => Person(row['id'] as int, row['name'] as String), 
           arguments: [...ids]);
      }
@@ -342,7 +342,7 @@ void main() {
       Future<List<Person>> findWithIds(List<int> ids) async {
         const offset = 1;
         final _sqliteVariablesForIds=Iterable<String>.generate(ids.length, (i)=>'?${i+offset}').join(',');
-        return _queryAdapter.queryList('SELECT * FROM Person WHERE id IN(' + _sqliteVariablesForIds + ')',
+        return _queryAdapter.queryList('SELECT * FROM Person WHERE id IN($_sqliteVariablesForIds)',
           mapper: (Map<String, Object?> row) => Person(row['id'] as int, row['name'] as String),
           arguments: [...ids]);
       }
@@ -359,12 +359,34 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<List<Person>> findWithIds(List<int> ids, List<int> idx) async {
+      Future<List<Person>> findWithIds(List<int> ids, List<int> idx,) async {
         int offset = 1;
         final _sqliteVariablesForIds=Iterable<String>.generate(ids.length, (i)=>'?${i+offset}').join(',');
         offset += ids.length;
         final _sqliteVariablesForIdx=Iterable<String>.generate(idx.length, (i)=>'?${i+offset}').join(',');
-        return _queryAdapter.queryList('SELECT * FROM Person WHERE id IN (' + _sqliteVariablesForIds + ') AND id IN (' + _sqliteVariablesForIdx + ')',
+        return _queryAdapter.queryList('SELECT * FROM Person WHERE id IN ($_sqliteVariablesForIds) AND id IN ($_sqliteVariablesForIdx)',
+          mapper: (Map<String, Object?> row) => Person(row['id'] as int, row['name'] as String),
+          arguments: [...ids, ...idx]);
+      }
+    '''));
+  });
+
+  test('Query with interpolated variables in it', () async {
+    final queryMethod = await _createQueryMethod('''
+      @Query('SELECT * FROM Person WHERE id IN (:ids) AND id IN (:idx)')
+      Future<List<Person>> findWithIds(List<int> ids, List<int> idx);
+    ''');
+
+    final actual = QueryMethodWriter(queryMethod).write();
+
+    expect(actual, equalsDart(r'''
+      @override
+      Future<List<Person>> findWithIds(List<int> ids, List<int> idx,) async {
+        int offset = 1;
+        final _sqliteVariablesForIds=Iterable<String>.generate(ids.length, (i)=>'?${i+offset}').join(',');
+        offset += ids.length;
+        final _sqliteVariablesForIdx=Iterable<String>.generate(idx.length, (i)=>'?${i+offset}').join(',');
+        return _queryAdapter.queryList('SELECT * FROM Person WHERE id IN ($_sqliteVariablesForIds) AND id IN ($_sqliteVariablesForIdx)',
           mapper: (Map<String, Object?> row) => Person(row['id'] as int, row['name'] as String),
           arguments: [...ids, ...idx]);
       }
@@ -383,12 +405,12 @@ void main() {
 
     expect(actual, equalsDart(r'''
       @override
-      Future<List<Person>> findWithIds(List<int> idx, String name, List<int> ids, int foo) async {
+      Future<List<Person>> findWithIds(List<int> idx, String name, List<int> ids, int foo,) async {
         int offset = 3;
         final _sqliteVariablesForIdx=Iterable<String>.generate(idx.length, (i)=>'?${i+offset}').join(',');
         offset += idx.length;
         final _sqliteVariablesForIds=Iterable<String>.generate(ids.length, (i)=>'?${i+offset}').join(',');
-        return _queryAdapter.queryList('SELECT * FROM Person WHERE id IN (' + _sqliteVariablesForIds + ') AND id IN (' + _sqliteVariablesForIdx + ') OR foo in (' + _sqliteVariablesForIds + ') AND bar = ?2 OR name = ?1', 
+        return _queryAdapter.queryList('SELECT * FROM Person WHERE id IN ($_sqliteVariablesForIds) AND id IN ($_sqliteVariablesForIdx) OR foo in ($_sqliteVariablesForIds) AND bar = ?2 OR name = ?1', 
           mapper: (Map<String, Object?> row) => Person(row['id'] as int, row['name'] as String), 
           arguments: [name, foo, ...idx, ...ids]);
       }
