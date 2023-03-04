@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.3
+
+* Update analyzer to v5
+
 ## 1.6.2
 
 * Tracking changes as a set of table names
