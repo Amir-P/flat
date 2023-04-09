@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.0
+
+* Add experimental Web support
+
 ## 1.5.4
 
 * Update analyzer to v5

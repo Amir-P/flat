@@ -245,7 +245,7 @@ packages:
       path: "../flat_orm"
       relative: true
     source: path
-    version: "1.5.4"
+    version: "1.6.0"
   flutter:
     dependency: "direct main"
     description: flutter

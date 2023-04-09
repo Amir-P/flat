@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.0
+
+* Add experimental Web support
+
+## 1.5.4
+
+* Update analyzer to v5
+
 ## 1.5.3
 
 * Fix adapter not adding event when result is 0 for single insertion
