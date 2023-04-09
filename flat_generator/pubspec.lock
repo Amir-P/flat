@@ -180,10 +180,9 @@ packages:
   flat_annotation:
     dependency: "direct main"
     description:
-      name: flat_annotation
-      sha256: ff8e97e5c045dd282c6cca43c570c8826555c51d093989299a98ebbff86b6ab5
-      url: "https://pub.dev"
-    source: hosted
+      path: "../flat_annotation"
+      relative: true
+    source: path
     version: "1.1.1"
   frontend_server_client:
     dependency: transitive

@@ -44,6 +44,12 @@ dev_dependencies:
   build_runner: ^2.1.2
 ```
 
+**For experimental Web support run this command in your project:**
+
+```
+dart run sqflite_common_ffi_web:setup
+```
+
 ### 2. Create an Entity
 
 It will represent a database table as well as the scaffold of your business object.
